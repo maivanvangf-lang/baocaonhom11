@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Truy xuất nguồn gốc sản phẩm</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .product-header {
+      background: linear-gradient(135deg, #343a40 0%, #495057 50%, #6c757d 100%);
+      color: white;
+      padding: 48px;
+      border-radius: 28px;
+      margin-bottom: 36px;
+      text-align: center;
+      box-shadow: 
+        0 16px 48px rgba(52, 58, 64, 0.3),
+        0 4px 16px rgba(0, 0, 0, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .product-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      animation: rotate 25s linear infinite;
+    }
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+    .product-header h1 {
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      font-size: 2.4em;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: -0.8px;
+    }
+    .product-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin: 36px 0;
+    }
+    .info-box {
+      background: linear-gradient(to bottom, white, #f8f9fa);
+      padding: 28px;
+      border-radius: 20px;
+      border: 2px solid #e9ecef;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .info-box:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      border-color: #adb5bd;
+    }
+    .info-box strong {
+      display: block;
+      color: #495057;
+      margin-bottom: 10px;
+      font-size: 0.85em;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .info-box div {
+      color: #212529;
+      font-size: 1.15em;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .journey-section {
+      margin-top: 48px;
+    }
+    .journey-section h2 {
+      color: #212529;
+      font-size: 2.2em;
+      font-weight: 900;
+      margin-bottom: 36px;
+      text-align: center;
+      letter-spacing: -0.8px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #e9ecef;
+      position: relative;
+    }
+    .journey-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, #343a40, #495057, #6c757d);
+      border-radius: 4px;
+    }
+    .journey-step {
+      background: linear-gradient(to right, white, #f8f9fa);
+      padding: 32px;
+      margin: 24px 0;
+      border-radius: 24px;
+      box-shadow: 
+        0 8px 24px rgba(0,0,0,0.08),
+        0 2px 8px rgba(0,0,0,0.04);
+      border: 2px solid #e9ecef;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .journey-step::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      top: 32px;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #343a40, #495057);
+      border-radius: 50%;
+      border: 6px solid white;
+      box-shadow: 
+        0 0 0 3px #e9ecef,
+        0 6px 16px rgba(52, 58, 64, 0.25);
+      z-index: 2;
+    }
+    .journey-step:hover {
+      transform: translateX(14px);
+      box-shadow: 
+        0 16px 40px rgba(0, 0, 0, 0.12),
+        0 4px 16px rgba(0, 0, 0, 0.08);
+      border-color: #adb5bd;
+      background: white;
+    }
+    .step-title {
+      font-size: 1.5em;
+      color: #212529;
+      font-weight: 900;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      letter-spacing: -0.5px;
+    }
+    .step-date {
+      color: #6c757d;
+      font-size: 0.95em;
+      margin-bottom: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .step-details {
+      color: #495057;
+      line-height: 1.9;
+    }
+    .step-details p {
+      margin: 12px 0;
+      padding-left: 24px;
+      position: relative;
+      font-weight: 500;
+    }
+    .step-details p::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #495057;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .step-details strong {
+      color: #212529;
+      font-weight: 800;
+    }
+    .loading {
+      text-align: center;
+      padding: 100px;
+      color: #495057;
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+    .error {
+      background: linear-gradient(135deg, #f8d7da, #f5c2c7);
+      color: #842029;
+      padding: 32px;
+      border-radius: 20px;
+      border: 3px solid #dc3545;
+      box-shadow: 0 8px 24px rgba(220, 53, 69, 0.2);
+      font-weight: 700;
+      font-size: 1.1em;
+    }
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 28px;
+      font-size: 0.95em;
+      font-weight: 900;
+      box-shadow: 0 6px 16px rgba(40, 167, 69, 0.3);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="product-header">
+      <h1>🔍 Truy xuất nguồn gốc sản phẩm</h1>
+      <p>Thông tin minh bạch từ blockchain</p>
+    </div>
+
+    <div id="loading" class="loading">
+      <p>⏳ Đang tải thông tin...</p>
+    </div>
+
+    <div id="error" style="display:none;"></div>
+
+    <div id="productInfo" style="display:none;">
+      <div class="card">
+        <h2>Thông tin sản phẩm</h2>
+        <div class="product-info" id="infoGrid"></div>
+      </div>
+
+      <div class="journey-section">
+        <h2>🛤️ Hành trình sản phẩm</h2>
+        <div id="journeySteps"></div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+      <a href="/" style="color:#667eea; text-decoration:none; font-weight:600;">
+        ← Quay lại trang chủ
+      </a>
+    </div>
+  </div>
+
+  <script>
+    async function getJSON(url) {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('Not found');
+      return resp.json();
+    }
+
+    function getStepIcon(type) {
+      const icons = {
+        'batch': '🌱',
+        'farming': '🚜',
+        'harvest': '🌾',
+        'quality': '🔬',
+        'packaging': '📦',
+        'transport': '🚚',
+        'warehouse': '🏪',
+        'log': '📝'
+      };
+      return icons[type] || '📌';
+    }
+
+    function getStepIcon(type) {
+      const icons = {
+        'batch': '🌱',
+        'farming': '🚜',
+        'harvest': '🌾',
+        'quality': '🔬',
+        'packaging': '📦',
+        'transport': '🚚',
+        'warehouse': '🏪',
+        'payment': '💳',
+        'log': '📝'
+      };
+      return icons[type] || '📌';
+    }
+
+    function getStepTitle(type) {
+      const titles = {
+        'batch': 'Tạo lô sản phẩm',
+        'farming': 'Chăm sóc cây trồng',
+        'harvest': 'Thu hoạch',
+        'quality': 'Kiểm định chất lượng',
+        'packaging': 'Đóng gói',
+        'transport': 'Vận chuyển',
+        'warehouse': 'Nhập/Xuất kho',
+        'payment': 'Thanh toán',
+        'log': 'Hoạt động khác'
+      };
+      return titles[type] || type;
+    }
+
+    function formatDetails(data) {
+      let html = '<div class="step-details">';
+      const excludeKeys = ['type', 'batchId'];
+      
+      for (let key in data) {
+        if (!excludeKeys.includes(key) && data[key] && data[key] !== '') {
+          html += `<p><strong>${formatKey(key)}:</strong> ${data[key]}</p>`;
+        }
+      }
+      
+      html += '</div>';
+      return html;
+    }
+
+    function formatKey(key) {
+      const keyNames = {
+        'product': 'Sản phẩm',
+        'producer': 'Người sản xuất',
+        'farmLocation': 'Vị trí',
+        'notes': 'Ghi chú',
+        'area': 'Diện tích',
+        'plantingDate': 'Ngày gieo trồng',
+        'actor': 'Người thực hiện',
+        'activity': 'Hoạt động',
+        'fertilizer': 'Phân bón',
+        'pesticide': 'Thuốc BVTV',
+        'quantity': 'Số lượng',
+        'quality': 'Chất lượng',
+        'harvestDate': 'Ngày thu hoạch',
+        'inspector': 'Người kiểm định',
+        'certification': 'Chứng nhận',
+        'testResults': 'Kết quả kiểm tra',
+        'passed': 'Đạt chuẩn',
+        'packager': 'Đơn vị đóng gói',
+        'packageType': 'Loại bao bì',
+        'transporter': 'Đơn vị vận chuyển',
+        'from': 'Từ',
+        'to': 'Đến',
+        'vehicle': 'Phương tiện',
+        'temperature': 'Nhiệt độ',
+        'warehouse': 'Kho/Siêu thị',
+        'action': 'Hành động',
+        'condition': 'Tình trạng',
+        'buyer': 'Người mua',
+        'amount': 'Số tiền',
+        'paymentMethod': 'Phương thức thanh toán',
+        'transactionId': 'Mã giao dịch',
+        'paymentDate': 'Ngày thanh toán',
+        'bankAccount': 'Tài khoản ngân hàng',
+        'status': 'Trạng thái'
+      };
+      return keyNames[key] || key;
+    }
+
+    // Get batch ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const batchId = urlParams.get('batch');
+
+    if (!batchId) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('error').innerHTML = '<div class="error">⚠️ Không tìm thấy mã lô trong URL</div>';
+      document.getElementById('error').style.display = 'block';
+    } else {
+      // Load batch info
+      getJSON(`/api/batch/${encodeURIComponent(batchId)}`)
+        .then(res => {
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('productInfo').style.display = 'block';
+
+          // Display product info
+          const batchBlock = res.history.find(b => b.data.type === 'batch');
+          if (batchBlock) {
+            const info = batchBlock.data;
+            document.getElementById('infoGrid').innerHTML = `
+              <div class="info-box">
+                <strong>Mã lô</strong>
+                <div>${info.batchId}</div>
+              </div>
+              <div class="info-box">
+                <strong>Sản phẩm</strong>
+                <div>${info.product}</div>
+              </div>
+              <div class="info-box">
+                <strong>Người sản xuất</strong>
+                <div>${info.producer}</div>
+              </div>
+              <div class="info-box">
+                <strong>Vị trí</strong>
+                <div>${info.farmLocation || 'N/A'}</div>
+              </div>
+              <div class="info-box">
+                <strong>Trạng thái</strong>
+                <div><span class="verified-badge">✓ Xác thực Blockchain</span></div>
+              </div>
+            `;
+          }
+
+          // Display journey
+          let journeyHTML = '';
+          res.history.forEach((block, idx) => {
+            const data = block.data;
+            const icon = getStepIcon(data.type);
+            const title = getStepTitle(data.type);
+            const date = new Date(block.timestamp).toLocaleString('vi-VN');
+            
+            journeyHTML += `
+              <div class="journey-step">
+                <div class="step-title">${icon} ${title}</div>
+                <div class="step-date">📅 ${date}</div>
+                ${formatDetails(data)}
+                <small style="color:#999; display:block; margin-top:10px;">
+                  Block #${block.index} | Hash: ${block.hash.substring(0, 16)}...
+                </small>
+              </div>
+            `;
+          });
+
+          document.getElementById('journeySteps').innerHTML = journeyHTML;
+        })
+        .catch(err => {
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('error').innerHTML = '<div class="error">❌ Không tìm thấy thông tin lô hàng này!</div>';
+          document.getElementById('error').style.display = 'block';
+        });
+    }
+  </script>
+</body>
+</html>
