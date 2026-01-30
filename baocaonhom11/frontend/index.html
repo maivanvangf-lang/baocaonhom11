@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hệ thống Truy xuất Nguồn gốc Nông sản - Blockchain</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌾 Hệ thống Truy xuất Nguồn gốc Nông sản</h1>
+      <p class="subtitle">Ứng dụng Blockchain cho chuỗi cung ứng minh bạch</p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="farmer">👨‍🌾 Nông dân</button>
+      <button class="tab-btn" data-tab="enterprise">🏭 Doanh nghiệp</button>
+      <button class="tab-btn" data-tab="transport">🚚 Vận chuyển</button>
+      <button class="tab-btn" data-tab="warehouse">🏪 Siêu thị</button>
+      <button class="tab-btn" data-tab="payment">💳 Thanh toán</button>
+      <button class="tab-btn" data-tab="consumer">👤 Người tiêu dùng</button>
+      <button class="tab-btn" data-tab="admin">📊 Quản lý</button>
+    </div>
+
+    <!-- NÔNG DÂN TAB -->
+    <div id="farmer" class="tab-content active">
+      <div class="card">
+        <h2>Tạo lô sản phẩm mới</h2>
+        <form id="batchForm">
+          <input type="text" id="batchId" placeholder="Mã lô (VD: LOT-2025-001)" required />
+          <input type="text" id="product" placeholder="Sản phẩm (VD: Xoài Cát Hòa Lộc)" required />
+          <input type="text" id="producer" placeholder="Tên nông dân / Hợp tác xã" required />
+          <input type="text" id="farmLocation" placeholder="Vị trí nông trại (VD: Đồng Tháp)" />
+          <input type="text" id="area" placeholder="Diện tích (VD: 2 hecta)" />
+          <input type="date" id="plantingDate" />
+          <textarea id="notes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Tạo lô sản phẩm</button>
+        </form>
+        <div id="batchResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Ghi nhận hoạt động chăm sóc</h2>
+        <form id="farmingForm">
+          <input type="text" id="farmBatchId" placeholder="Mã lô" required />
+          <input type="text" id="farmActor" placeholder="Người thực hiện" required />
+          <select id="farmActivity">
+            <option value="watering">Tưới tiêu</option>
+            <option value="fertilizing">Bón phân</option>
+            <option value="pesticide">Phun thuốc BVTV</option>
+            <option value="weeding">Làm cỏ</option>
+          </select>
+          <input type="text" id="fertilizer" placeholder="Loại phân bón (nếu có)" />
+          <input type="text" id="pesticide" placeholder="Loại thuốc BVTV (nếu có)" />
+          <textarea id="farmNotes" placeholder="Chi tiết hoạt động"></textarea>
+          <button type="submit">Ghi nhận</button>
+        </form>
+        <div id="farmingResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Ghi nhận thu hoạch</h2>
+        <form id="harvestForm">
+          <input type="text" id="harvestBatchId" placeholder="Mã lô" required />
+          <input type="text" id="harvestActor" placeholder="Người thu hoạch" required />
+          <input type="date" id="harvestDate" />
+          <input type="text" id="quantity" placeholder="Số lượng (VD: 500 kg)" required />
+          <select id="quality">
+            <option value="excellent">Xuất sắc</option>
+            <option value="good">Tốt</option>
+            <option value="medium">Trung bình</option>
+          </select>
+          <textarea id="harvestNotes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Ghi nhận thu hoạch</button>
+        </form>
+        <div id="harvestResult" class="result"></div>
+      </div>
+    </div>
+
+    <!-- DOANH NGHIỆP TAB -->
+    <div id="enterprise" class="tab-content">
+      <div class="card">
+        <h2>Kiểm định chất lượng</h2>
+        <form id="qualityForm">
+          <input type="text" id="qualityBatchId" placeholder="Mã lô" required />
+          <input type="text" id="inspector" placeholder="Người kiểm định" required />
+          <input type="text" id="certification" placeholder="Chứng nhận (VD: VietGAP, GlobalGAP)" />
+          <textarea id="testResults" placeholder="Kết quả kiểm tra"></textarea>
+          <label><input type="checkbox" id="passed" checked /> Đạt tiêu chuẩn</label>
+          <textarea id="qualityNotes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Lưu kết quả kiểm định</button>
+        </form>
+        <div id="qualityResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Đóng gói sản phẩm</h2>
+        <form id="packagingForm">
+          <input type="text" id="packBatchId" placeholder="Mã lô" required />
+          <input type="text" id="packager" placeholder="Đơn vị đóng gói" required />
+          <select id="packageType">
+            <option value="box">Thùng carton</option>
+            <option value="bag">Túi nilon</option>
+            <option value="tray">Khay nhựa</option>
+            <option value="vacuum">Hút chân không</option>
+          </select>
+          <input type="text" id="packQuantity" placeholder="Số lượng đóng gói" />
+          <input type="date" id="packagingDate" />
+          <textarea id="packNotes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Ghi nhận đóng gói</button>
+        </form>
+        <div id="packagingResult" class="result"></div>
+      </div>
+    </div>
+
+    <!-- VẬN CHUYỂN TAB -->
+    <div id="transport" class="tab-content">
+      <div class="card">
+        <h2>Ghi nhận vận chuyển</h2>
+        <form id="transportForm">
+          <input type="text" id="transBatchId" placeholder="Mã lô" required />
+          <input type="text" id="transporter" placeholder="Đơn vị vận chuyển" required />
+          <input type="text" id="from" placeholder="Xuất phát từ" required />
+          <input type="text" id="to" placeholder="Đến" required />
+          <input type="text" id="vehicle" placeholder="Phương tiện (VD: Xe tải lạnh)" />
+          <input type="text" id="temperature" placeholder="Nhiệt độ bảo quản (VD: 5-8°C)" />
+          <input type="datetime-local" id="departureTime" />
+          <input type="datetime-local" id="estimatedArrival" />
+          <textarea id="transNotes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Ghi nhận vận chuyển</button>
+        </form>
+        <div id="transportResult" class="result"></div>
+      </div>
+    </div>
+
+    <!-- SIÊU THỊ TAB -->
+    <div id="warehouse" class="tab-content">
+      <div class="card">
+        <h2>Quản lý kho</h2>
+        <form id="warehouseForm">
+          <input type="text" id="whBatchId" placeholder="Mã lô" required />
+          <input type="text" id="warehouse" placeholder="Tên kho / Siêu thị" required />
+          <select id="whAction">
+            <option value="import">Nhập kho</option>
+            <option value="export">Xuất kho</option>
+          </select>
+          <input type="text" id="whQuantity" placeholder="Số lượng" />
+          <select id="condition">
+            <option value="excellent">Tuyệt vời</option>
+            <option value="good">Tốt</option>
+            <option value="fair">Khá</option>
+            <option value="poor">Kém</option>
+          </select>
+          <textarea id="whNotes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Ghi nhận</button>
+        </form>
+        <div id="warehouseResult" class="result"></div>
+      </div>
+    </div>
+
+    <!-- NGƯỜI TIÊU DÙNG TAB -->
+    <div id="consumer" class="tab-content">
+      <div class="card">
+        <h2>🔍 Truy xuất nguồn gốc</h2>
+        <p>Nhập mã lô hoặc quét mã QR để xem toàn bộ lịch sử sản phẩm</p>
+        <input type="text" id="queryBatchId" placeholder="Nhập mã lô (VD: LOT-2025-001)" />
+        <button id="queryBtn">Truy xuất</button>
+        <div id="historyResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>📱 Tạo mã QR cho lô sản phẩm</h2>
+        <input type="text" id="qrBatchId" placeholder="Nhập mã lô" />
+        <button id="qrBtn">Tạo mã QR</button>
+        <div id="qrResult" class="result">
+          <div id="qrDisplay"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THANH TOÁN TAB -->
+    <div id="payment" class="tab-content">
+      <div class="card">
+        <h2>💳 Tạo mã QR thanh toán</h2>
+        <p>Tạo mã QR để khách hàng thanh toán qua ngân hàng</p>
+        <form id="paymentQRForm">
+          <input type="text" id="payQRBatchId" placeholder="Mã lô sản phẩm" required />
+          <input type="number" id="payAmount" placeholder="Số tiền (VD: 500000)" required min="0" step="1000" />
+          <input type="text" id="bankAccount" placeholder="Số tài khoản ngân hàng" required />
+          <input type="text" id="bankName" placeholder="Tên ngân hàng (VD: Vietcombank)" />
+          <input type="text" id="accountName" placeholder="Tên chủ tài khoản" />
+          <textarea id="payDescription" placeholder="Nội dung chuyển khoản (tùy chọn)"></textarea>
+          <button type="submit">Tạo mã QR thanh toán</button>
+        </form>
+        <div id="paymentQRResult" class="result">
+          <div id="paymentQRDisplay"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>💰 Ghi nhận thanh toán</h2>
+        <p>Ghi nhận giao dịch sau khi khách hàng thanh toán</p>
+        <form id="paymentForm">
+          <input type="text" id="payBatchId" placeholder="Mã lô" required />
+          <input type="text" id="buyer" placeholder="Tên người mua" required />
+          <input type="number" id="paymentAmount" placeholder="Số tiền thanh toán" required min="0" step="1000" />
+          <select id="paymentMethod">
+            <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+            <option value="qr_code">Quét mã QR</option>
+            <option value="cash">Tiền mặt</option>
+            <option value="e_wallet">Ví điện tử</option>
+          </select>
+          <input type="text" id="transactionId" placeholder="Mã giao dịch (tùy chọn)" />
+          <input type="text" id="payBankAccount" placeholder="Tài khoản đã chuyển (tùy chọn)" />
+          <textarea id="payNotes" placeholder="Ghi chú"></textarea>
+          <button type="submit">Ghi nhận thanh toán</button>
+        </form>
+        <div id="paymentResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Xem lịch sử thanh toán</h2>
+        <input type="text" id="payHistoryBatchId" placeholder="Nhập mã lô" />
+        <button id="payHistoryBtn">Xem lịch sử</button>
+        <div id="payHistoryResult" class="result"></div>
+      </div>
+    </div>
+
+    <!-- QUẢN LÝ TAB -->
+    <div id="admin" class="tab-content">
+      <div class="card">
+        <h2>📊 Dashboard thống kê</h2>
+        <button id="statsBtn">Tải thống kê</button>
+        <div id="statsResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Danh sách tất cả lô sản phẩm</h2>
+        <button id="listBtn">Tải danh sách</button>
+        <div id="listResult" class="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>✅ Kiểm tra tính toàn vẹn Blockchain</h2>
+        <button id="validateBtn">Kiểm tra</button>
+        <div id="validateResult" class="result"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2025-01-01T00:00:00.000Z",
+    "data": {
+      "info": "Genesis Block"
+    },
+    "previousHash": "0",
+    "hash": "0"
+  },
+  {
+    "index": 1,
+    "timestamp": "2025-11-26T01:02:03.490Z",
+    "data": {
+      "type": "batch",
+      "batchId": "001",
+      "product": "chôm chôm",
+      "producer": "Anh nông dân may mắn",
+      "farmLocation": "Cà mau",
+      "notes": "",
+      "area": "100 hecta",
+      "plantingDate": "2025-11-26T01:02:03.490Z",
+      "status": "created"
+    },
+    "previousHash": "0",
+    "hash": "be8ce3247ca4db85efc82c9b827ceda44db0ac2f61195ed31cd8602ccf532b33"
+  },
+  {
+    "index": 2,
+    "timestamp": "2025-11-26T01:02:50.099Z",
+    "data": {
+      "type": "farming",
+      "batchId": "001",
+      "activity": "fertilizing",
+      "fertilizer": "URE",
+      "pesticide": "không",
+      "wateringSchedule": "",
+      "notes": "tưới trực tiếp",
+      "actor": "Nguyễn Văn Khánh"
+    },
+    "previousHash": "be8ce3247ca4db85efc82c9b827ceda44db0ac2f61195ed31cd8602ccf532b33",
+    "hash": "afbafb55db521ab20d61e11ce301e6ac44e734047d17948ccd0db2973aec1dc5"
+  },
+  {
+    "index": 3,
+    "timestamp": "2025-11-26T01:03:32.764Z",
+    "data": {
+      "type": "quality",
+      "batchId": "001",
+      "inspector": "Trang",
+      "testResults": "rất đạt",
+      "certification": "VietGAP",
+      "passed": true,
+      "notes": "",
+      "testDate": "2025-11-26T01:03:32.764Z"
+    },
+    "previousHash": "afbafb55db521ab20d61e11ce301e6ac44e734047d17948ccd0db2973aec1dc5",
+    "hash": "ffa669320d4415f5c8c95cc987c0afb48c50188c8918b8193a90ed43a061273f"
+  },
+  {
+    "index": 4,
+    "timestamp": "2025-11-26T01:06:24.001Z",
+    "data": {
+      "type": "packaging",
+      "batchId": "001",
+      "packager": "Bách Hoá Xanh",
+      "packageType": "tray",
+      "quantity": "1000 thùng",
+      "packagingDate": "2025-11-10",
+      "notes": "không có"
+    },
+    "previousHash": "ffa669320d4415f5c8c95cc987c0afb48c50188c8918b8193a90ed43a061273f",
+    "hash": "cc61d3aaa183677e70b557feb6ddadd4eb83d947ec1f55c15ba945df09b74f8c"
+  },
+  {
+    "index": 5,
+    "timestamp": "2025-12-16T00:58:04.949Z",
+    "data": {
+      "type": "batch",
+      "batchId": "01",
+      "product": "dưa hấu",
+      "producer": "cà mau",
+      "farmLocation": "cần thơ",
+      "notes": "tốt",
+      "area": "100",
+      "plantingDate": "2025-12-16",
+      "status": "created"
+    },
+    "previousHash": "cc61d3aaa183677e70b557feb6ddadd4eb83d947ec1f55c15ba945df09b74f8c",
+    "hash": "081669402adec08d1327a131263e934533ee6dc8649c85977ad3d18b7d5326db"
+  }
+]
